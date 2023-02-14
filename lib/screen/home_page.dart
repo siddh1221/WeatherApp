@@ -42,7 +42,30 @@ class _HomePageState extends State<HomePage> {
             );
           } else if (state is WeatherErrorState) {
             return Center(
-              child: Text(state.message),
+              child: Container(
+                height: 200.h,
+                decoration: BoxDecoration(
+                    color: CustomeColors.dividerLine,
+                    borderRadius: BorderRadius.circular(20.r)),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        state.message,
+                        textAlign: TextAlign.center,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            BlocProvider.of<WeatherCubit>(context)
+                                .getWeather(widget.lat, widget.lon);
+                          },
+                          icon: const Icon(Icons.refresh))
+                    ],
+                  ),
+                ),
+              ),
             );
           } else if (state is WeatherLoadedState) {
             return Center(

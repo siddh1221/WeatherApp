@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weatherapp/bloc/weather_state.dart';
@@ -17,9 +19,12 @@ class WeatherCubit extends Cubit<WeatherState> {
     try {
       final WeatherModel? weather = await _repository.getWeather(lat, lan);
       emit(WeatherLoadedState(weather!));
-    } on Exception catch (e) {
-      print(e);
-      emit(WeatherErrorState(e.toString()));
+    } on SocketException {
+      emit(WeatherErrorState("Please check your internet connection."));
+    } on HttpException {
+      emit(WeatherErrorState("Something went wrong."));
+    } on FormatException {
+      emit(WeatherErrorState("Something went wrong."));
     }
   }
 }

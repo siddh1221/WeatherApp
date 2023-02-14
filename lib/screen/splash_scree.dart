@@ -18,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   getLocation() async {
     try {
       bool isServiceEnabled;
+
       LocationPermission locationPermission;
       isServiceEnabled = await Geolocator.isLocationServiceEnabled();
       locationPermission = await Geolocator.requestPermission();
@@ -49,9 +50,6 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       } else if (locationPermission == LocationPermission.always ||
           locationPermission == LocationPermission.whileInUse) {
-        if (!isServiceEnabled) {
-          print("Location not enabled");
-        }
         await Geolocator.getCurrentPosition(
                 desiredAccuracy: LocationAccuracy.high)
             .then((value) {
